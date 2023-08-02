@@ -1,0 +1,72 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Book {
+  BookId: String!
+
+  """Title of the book """
+  Title: String!
+
+  """Name of the author of the book"""
+  AuthorName: String!
+
+  """Price of the book"""
+  Price: Int!
+
+  """Date of the book published"""
+  PublishedOn: DateTime
+
+  """Created Date"""
+  CreatedAt: DateTime
+
+  """Created Date"""
+  UpdatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  findAllBooks: [Book!]!
+  findOneBook(BookId: String!): Book!
+}
+
+type Mutation {
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(updateBookInput: UpdateBookInput!): Book!
+  removeBook(BookId: String!): Book!
+}
+
+input CreateBookInput {
+  """Title of the book """
+  Title: String!
+
+  """Name of the author of the book"""
+  AuthorName: String!
+
+  """Price of the book"""
+  Price: Int!
+
+  """Date of the book published"""
+  PublishedOn: DateTime
+}
+
+input UpdateBookInput {
+  """Id of the book needs to update"""
+  BookId: String!
+
+  """Title of the book """
+  Title: String
+
+  """Name of the author of the book"""
+  AuthorName: String
+
+  """Price of the book"""
+  Price: Int
+
+  """Date of the book published"""
+  PublishedOn: DateTime
+}
