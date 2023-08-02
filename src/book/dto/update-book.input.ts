@@ -3,11 +3,6 @@ import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 @InputType()
 export class UpdateBookInput {
-  @Field({ description: 'Id of the book needs to update' })
-  @IsNotEmpty()
-  @IsString()
-  BookId: string;
-
   @Field({ description: 'Title of the book ', nullable: true })
   @IsOptional()
   @IsString()

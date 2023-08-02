@@ -43,13 +43,16 @@ export class BookService {
     }
   }
 
-  async updateBook(updateBookInput: UpdateBookInput): Promise<Book> {
+  async updateBook(
+    BookId: string,
+    updateBookInput: UpdateBookInput,
+  ): Promise<Book> {
     try {
-      const existingBook = await this.findOneBook(updateBookInput?.BookId);
+      const existingBook = await this.findOneBook(BookId);
 
       if (!existingBook) {
         throw new HttpException(
-          `Book with ${updateBookInput?.BookId} not found to delete`,
+          `Book with ${BookId} not found to delete`,
           HttpStatus.NOT_FOUND,
         );
       }

@@ -22,5 +22,5 @@ export class CreateBookInput {
   @Field({ description: 'Date of the book published', nullable: true })
   @IsString()
   @IsOptional()
-  PublishedOn: Date;
+  PublishedOn?: Date;
 }
