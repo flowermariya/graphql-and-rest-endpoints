@@ -13,7 +13,7 @@ import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
-import { JwtAuthGuard } from 'src/auth/auth.jwt.rest.guard';
+import { JwtAuthGuard } from 'src/auth/guards/auth.jwt.rest.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('book')

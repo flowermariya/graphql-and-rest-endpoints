@@ -3,7 +3,7 @@ import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
-import { GqlAuthGuard } from 'src/auth/auth.jwt.gql.guard';
+import { GqlAuthGuard } from 'src/auth/guards/auth.jwt.gql.guard';
 import { UseGuards } from '@nestjs/common';
 
 @UseGuards(GqlAuthGuard)
