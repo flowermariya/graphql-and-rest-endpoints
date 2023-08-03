@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Matches, IsPhoneNumber } from 'class-validator';
+import { IsNotEmpty, Matches } from 'class-validator';
 
 @InputType()
 export class LoginBySendOTP {

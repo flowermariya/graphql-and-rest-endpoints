@@ -23,7 +23,6 @@ type User {
 
   """Created Date"""
   UpdatedAt: DateTime
-  Books: [Book!]!
 }
 
 """
@@ -37,8 +36,11 @@ type Book {
   """Title of the book """
   Title: String!
 
+  """Title of the book """
+  AuthorName: String!
+
   """Name of the author of the book"""
-  Author: User!
+  Owner: User
 
   """Price of the book"""
   Price: Int
@@ -76,15 +78,17 @@ type Mutation {
   loginByOtp(loginBySendOTP: LoginBySendOTP!): CreateAuthOutput!
   confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
   updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(userId: String!): User!
 }
 
 input CreateBookInput {
   """Title of the book """
   Title: String!
 
+  """Author of the book """
+  AuthorName: String
+
   """Price of the book"""
-  Price: Int!
+  Price: Int
 
   """Date of the book published"""
   PublishedOn: DateTime
@@ -93,6 +97,9 @@ input CreateBookInput {
 input UpdateBookInput {
   """Title of the book """
   Title: String
+
+  """Author of the book """
+  AuthorName: String
 
   """Price of the book"""
   Price: Int

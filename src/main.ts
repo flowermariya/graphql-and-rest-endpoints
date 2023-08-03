@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { config } from './auth/configs/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
 require('dotenv').config();

@@ -17,6 +17,8 @@ export class BookService {
 
   async create(user: IUser, createBookInput: CreateBookInput): Promise<Book> {
     try {
+      console.log('user', user);
+
       const createdBook = await this.bookRepository.create({
         ...createBookInput,
         CreatedAt: new Date(),
@@ -24,7 +26,7 @@ export class BookService {
 
       const author = await this.userService.findOneUserById(user?.userId);
 
-      createdBook.Author = author;
+      createdBook.Owner = author;
 
       return await this.bookRepository.save(createdBook);
     } catch (error) {
@@ -44,7 +46,7 @@ export class BookService {
     try {
       return await this.bookRepository.findOne({
         where: { BookId },
-        relations: { Author: true },
+        relations: { Owner: true },
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -59,7 +61,7 @@ export class BookService {
     try {
       const existingBook = await this.findOneBook(BookId);
 
-      if (existingBook?.Author?.UserId !== user?.userId) {
+      if (existingBook?.Owner?.UserId !== user?.userId) {
         throw new HttpException(
           `You are not authorized to update this book, since you are not the author of this book`,
           HttpStatus.UNAUTHORIZED,
@@ -97,7 +99,7 @@ export class BookService {
         );
       }
 
-      if (existingBook?.Author?.UserId !== user?.userId) {
+      if (existingBook?.Owner?.UserId !== user?.userId) {
         throw new HttpException(
           `You are not authorized to update this book, since you are not the author of this book`,
           HttpStatus.UNAUTHORIZED,

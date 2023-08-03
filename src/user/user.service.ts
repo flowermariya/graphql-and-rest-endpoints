@@ -74,25 +74,4 @@ export class UserService {
       throw error;
     }
   }
-
-  async removeUser(UserId: string): Promise<User> {
-    try {
-      const user = await this.userRepository.findOne({ where: { UserId } });
-
-      if (!user) {
-        throw new HttpException(
-          `User with ${UserId} not found to update`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
-
-      const deletedUser = Object.assign({}, user);
-
-      await this.userRepository.delete(UserId);
-
-      return deletedUser;
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
 }

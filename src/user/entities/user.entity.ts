@@ -42,8 +42,7 @@ export class User {
   @Field({ description: 'Created Date', nullable: true })
   UpdatedAt: Date;
 
-  @OneToMany(() => Book, (book) => book.Author)
-  @Field(() => [Book])
+  @OneToMany(() => Book, (book) => book.Owner)
   Books: Book[];
 
   @OneToMany((type) => RefreshToken, (refreshToken) => refreshToken.user)

@@ -6,7 +6,7 @@ import { UserModule } from 'src/user/user.module';
 import { AuthConfig } from './configs/auth-gql.config';
 import { RefreshToken } from './entities/refresh-token.entinty';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt'; // <-- Import JwtModule
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth.jwt';
 import { AuthController } from './auth.controller';
 import restAuthConfig from './configs/auth-rest.config';
