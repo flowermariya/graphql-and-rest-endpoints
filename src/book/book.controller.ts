@@ -7,18 +7,22 @@ import {
   Body,
   Param,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
+import { JwtAuthGuard } from 'src/auth/auth.jwt.rest.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post('createBook')
   async createBook(@Body() createBookInput: CreateBookInput): Promise<Book> {
+    console.log('>>createbooks');
     return this.bookService.create(createBookInput);
   }
 
