@@ -12,12 +12,14 @@ export class JwtAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     try {
       const jwt = request.headers.authorization.split(' ')[1];
+
       const decoded = this.jwtService.verify(jwt);
-      console.log('decoded', decoded);
+
+      request.user = decoded;
 
       return !!decoded;
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 }
