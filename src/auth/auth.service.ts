@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ConfirmOutput } from './dto/confirm-otp.output';
 import { UserService } from 'src/user/user.service';
 import { sign } from 'jsonwebtoken';
-import { AuthConfig } from './auth.config';
+import { AuthConfig } from './auth-gql.config';
 import { RefreshTokenPayloadDto } from './dto/token-payload.input';
 import { RefreshToken } from './entities/refresh-token.entinty';
 import { addSeconds } from 'date-fns';
