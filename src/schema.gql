@@ -29,15 +29,48 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type User {
+  """Unique Identifier of the User"""
+  UserId: String!
+
+  """Phone Number of the User"""
+  PhoneNumber: String!
+
+  """Name of the User"""
+  Name: String
+
+  """Gender of the User"""
+  Gender: String
+
+  """Address of the User"""
+  Address: String
+
+  """Created Date"""
+  CreatedAt: DateTime
+
+  """Created Date"""
+  UpdatedAt: DateTime
+}
+
+type ConfirmOutput {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Query {
   findAllBooks: [Book!]!
   findOneBook(BookId: String!): Book!
+  findAllUsers: [User!]!
 }
 
 type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(BookId: String!, updateBookInput: UpdateBookInput!): Book!
   removeBook(BookId: String!): Book!
+  updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(userId: String!): User!
+  loginByOtp(loginBySendOTP: LoginBySendOTP!): Boolean!
+  confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
 }
 
 input CreateBookInput {
@@ -66,4 +99,28 @@ input UpdateBookInput {
 
   """Date of the book published"""
   PublishedOn: DateTime
+}
+
+input UpdateUserInput {
+  """Phone Number of the User"""
+  PhoneNumber: String
+
+  """Name of the User"""
+  Name: String
+
+  """Gender of the User"""
+  Gender: String
+
+  """Address of the User"""
+  Address: String
+}
+
+input LoginBySendOTP {
+  """Phone number of the user needs to logged in"""
+  PhoneNumber: String!
+}
+
+input ConfirmInput {
+  PhoneNumber: String!
+  Otp: String!
 }

@@ -7,7 +7,6 @@ import {
   Body,
   Param,
   NotFoundException,
-  Query,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
