@@ -18,5 +18,5 @@ export enum SortOrder {
 
 registerEnumType(SortOrder, {
   name: 'SortOrder',
-  description: 'Columns by which results can be ordered.',
+  description: 'Sorting order for results.',
 });
