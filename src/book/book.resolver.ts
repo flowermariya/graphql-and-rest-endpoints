@@ -6,6 +6,7 @@ import { UpdateBookInput } from './dto/update-book.input';
 import { GqlAuthGuard } from 'src/auth/guards/auth.jwt.gql.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser, IUser } from 'src/auth/guards/current-user.guard';
+import { PaginationAndSorting } from './dto/pagination-input';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Book)
@@ -21,8 +22,11 @@ export class BookResolver {
   }
 
   @Query(() => [Book])
-  findAllBooks(): Promise<Book[]> {
-    return this.bookService.findAllBooks();
+  findAllBooks(
+    @Args('paginationAndSorting', { nullable: true })
+    paginationAndSorting: PaginationAndSorting,
+  ): Promise<Book[]> {
+    return this.bookService.findAllBooks(paginationAndSorting);
   }
 
   @Query(() => Book)
