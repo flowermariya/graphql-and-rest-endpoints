@@ -84,7 +84,7 @@ enum SortColumn {
   PUBLISHED_ON
 }
 
-"""Columns by which results can be ordered."""
+"""Sorting order for results."""
 enum SortOrder {
   ASC
   DESC
@@ -146,8 +146,15 @@ input UpdateUserInput {
   Name: String
 
   """Gender of the User"""
-  Gender: String
+  Gender: UserGender
 
   """Address of the User"""
   Age: Float
+}
+
+"""UserGender"""
+enum UserGender {
+  MALE
+  FEMALE
+  OTHER
 }
