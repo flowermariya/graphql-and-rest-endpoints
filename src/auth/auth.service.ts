@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ConfirmOutput } from './dto/confirm-otp.output';
 import { UserService } from 'src/user/user.service';
 import { sign } from 'jsonwebtoken';
-import { AuthConfig } from './auth-gql.config';
+import { AuthConfig } from './configs/auth-gql.config';
 import { RefreshTokenPayloadDto } from './dto/token-payload.input';
 import { RefreshToken } from './entities/refresh-token.entinty';
 import { addSeconds } from 'date-fns';
@@ -62,15 +62,11 @@ export class AuthService {
         expiresIn: this.authConfig.tokenLife,
       });
 
-      console.log('token', token);
-
       const refreshToken = await this.createRefreshToken({
         user,
         ip: '127.0.0.1',
         userAgent: 'Microsoft',
       });
-
-      console.log('refreshToken', refreshToken);
 
       return {
         accessToken: token,
@@ -103,8 +99,6 @@ export class AuthService {
 
       return this.refreshTokenRepo.save(refreshToken);
     } catch (error) {
-      console.log('error from tokeeeennn', error);
-
       throw error;
     }
   }

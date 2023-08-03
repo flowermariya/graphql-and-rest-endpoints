@@ -13,6 +13,7 @@ import {
 @ObjectType()
 export class Book {
   @Field()
+  @Column()
   @PrimaryGeneratedColumn('uuid')
   BookId: string;
 

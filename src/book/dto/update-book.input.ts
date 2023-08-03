@@ -8,11 +8,6 @@ export class UpdateBookInput {
   @IsString()
   Title: string;
 
-  @Field({ description: 'Name of the author of the book' })
-  @IsOptional()
-  @IsUUID()
-  AuthorId: string;
-
   @Field(() => Int, { description: 'Price of the book', nullable: true })
   @IsOptional()
   @IsNumber()

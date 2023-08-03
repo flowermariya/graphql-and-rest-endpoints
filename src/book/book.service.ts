@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
+import { IUser } from 'src/auth/guards/current-user.guard';
 
 @Injectable()
 export class BookService {
@@ -14,24 +15,14 @@ export class BookService {
     private readonly userService: UserService,
   ) {}
 
-  async create(createBookInput: CreateBookInput): Promise<Book> {
-    console.log(createBookInput);
+  async create(user: IUser, createBookInput: CreateBookInput): Promise<Book> {
     try {
       const createdBook = await this.bookRepository.create({
         ...createBookInput,
         CreatedAt: new Date(),
       });
 
-      const author = await this.userService.findOneUserById(
-        createBookInput?.AuthorId,
-      );
-
-      if (!author) {
-        throw new HttpException(
-          `Author with ${createBookInput?.AuthorId} not found`,
-          HttpStatus.NOT_FOUND,
-        );
-      }
+      const author = await this.userService.findOneUserById(user?.userId);
 
       createdBook.Author = author;
 
@@ -51,18 +42,29 @@ export class BookService {
 
   async findOneBook(BookId: string): Promise<Book> {
     try {
-      return await this.bookRepository.findOne({ where: { BookId } });
+      return await this.bookRepository.findOne({
+        where: { BookId },
+        relations: { Author: true },
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async updateBook(
+    user: IUser,
     BookId: string,
     updateBookInput: UpdateBookInput,
   ): Promise<Book> {
     try {
       const existingBook = await this.findOneBook(BookId);
+
+      if (existingBook?.Author?.UserId !== user?.userId) {
+        throw new HttpException(
+          `You are not authorized to update this book, since you are not the author of this book`,
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
 
       if (!existingBook) {
         throw new HttpException(
@@ -76,21 +78,6 @@ export class BookService {
         updateBookInput,
       );
 
-      if (updateBookInput?.AuthorId) {
-        const author = await this.userService.findOneUserById(
-          updateBookInput?.AuthorId,
-        );
-
-        if (!author) {
-          throw new HttpException(
-            `Author with ${updateBookInput?.AuthorId} not found`,
-            HttpStatus.NOT_FOUND,
-          );
-        }
-
-        updatedBook.Author = author;
-      }
-
       updatedBook.UpdatedAt = new Date();
 
       return await this.bookRepository.save(updatedBook);
@@ -99,7 +86,7 @@ export class BookService {
     }
   }
 
-  async removeBook(BookId: string): Promise<Book> {
+  async removeBook(user: IUser, BookId: string): Promise<Book> {
     try {
       const existingBook = await this.findOneBook(BookId);
 
@@ -107,6 +94,13 @@ export class BookService {
         throw new HttpException(
           `Book with ${BookId} not found to delete`,
           HttpStatus.NOT_FOUND,
+        );
+      }
+
+      if (existingBook?.Author?.UserId !== user?.userId) {
+        throw new HttpException(
+          `You are not authorized to update this book, since you are not the author of this book`,
+          HttpStatus.UNAUTHORIZED,
         );
       }
 
