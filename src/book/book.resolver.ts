@@ -15,8 +15,6 @@ export class BookResolver {
   createBook(
     @Args('createBookInput') createBookInput: CreateBookInput,
   ): Promise<Book> {
-    console.log('>>>>', createBookInput);
-
     return this.bookService.create(createBookInput);
   }
 

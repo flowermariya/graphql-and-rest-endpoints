@@ -2,33 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Book {
-  BookId: String!
-
-  """Title of the book """
-  Title: String!
-
-  """Name of the author of the book"""
-  AuthorName: String!
-
-  """Price of the book"""
-  Price: Int!
-
-  """Date of the book published"""
-  PublishedOn: DateTime
-
-  """Created Date"""
-  CreatedAt: DateTime
-
-  """Created Date"""
-  UpdatedAt: DateTime
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type User {
   """Unique Identifier of the User"""
   UserId: String!
@@ -43,7 +16,35 @@ type User {
   Gender: String
 
   """Address of the User"""
-  Address: String
+  Age: Float
+
+  """Created Date"""
+  CreatedAt: DateTime
+
+  """Created Date"""
+  UpdatedAt: DateTime
+  Books: [Book!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Book {
+  BookId: String!
+
+  """Title of the book """
+  Title: String!
+
+  """Name of the author of the book"""
+  Author: User!
+
+  """Price of the book"""
+  Price: Int
+
+  """Date of the book published"""
+  PublishedOn: DateTime
 
   """Created Date"""
   CreatedAt: DateTime
@@ -78,7 +79,7 @@ input CreateBookInput {
   Title: String!
 
   """Name of the author of the book"""
-  AuthorName: String!
+  AuthorId: String!
 
   """Price of the book"""
   Price: Int!
@@ -92,7 +93,7 @@ input UpdateBookInput {
   Title: String
 
   """Name of the author of the book"""
-  AuthorName: String
+  AuthorId: String!
 
   """Price of the book"""
   Price: Int
@@ -122,5 +123,5 @@ input UpdateUserInput {
   Gender: String
 
   """Address of the User"""
-  Address: String
+  Age: Float
 }

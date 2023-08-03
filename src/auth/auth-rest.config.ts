@@ -1,6 +1,6 @@
 const restAuthConfig = {
-  secret: 'jwt-secret',
-  signOptions: { expiresIn: 60 * 60 * 24 },
+  secret: process.env.JWT_TOKEN_SECRET,
+  signOptions: { expiresIn: Number(process.env.JWT_TOKEN_LIFE) },
 };
 
 export default restAuthConfig;

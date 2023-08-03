@@ -1,6 +1,11 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { CreateDateColumn } from 'typeorm';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsUUID,
+  IsOptional,
+} from 'class-validator';
 
 @InputType()
 export class CreateBookInput {
@@ -11,11 +16,11 @@ export class CreateBookInput {
 
   @Field({ description: 'Name of the author of the book' })
   @IsNotEmpty()
-  @IsString()
-  AuthorName: string;
+  @IsUUID()
+  AuthorId: string;
 
   @Field(() => Int, { description: 'Price of the book' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   Price: number;
 

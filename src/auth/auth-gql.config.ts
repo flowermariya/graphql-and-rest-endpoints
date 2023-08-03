@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthConfig {
-  public jwtTokenSecret = 'jwt-secret';
-  public jwtRefreshTokenSecret = 'jwt-refresh-secret';
-  public refreshTokenLife: number = 60 * 60 * 24 * 7 * 2; // 2 weeks
-  public tokenLife: number = 60 * 60 * 24; // 1 Day
+  public jwtTokenSecret = process.env.JWT_TOKEN_SECRET;
+  public jwtRefreshTokenSecret = process.env.JWT_REFRESH_TOKEN_SECRET;
+  public refreshTokenLife = Number(process.env.JWT_REFRESH_TOKEN_LIFE);
+  public tokenLife = Number(process.env.JWT_TOKEN_LIFE);
 }

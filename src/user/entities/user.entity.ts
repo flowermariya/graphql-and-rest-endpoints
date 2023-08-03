@@ -1,7 +1,8 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { RefreshToken } from 'src/auth/entities/refresh-token.entinty';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { Book } from 'src/book/entities/book.entity';
 
 @Entity()
 @ObjectType()
@@ -29,8 +30,8 @@ export class User {
   @Column({ nullable: true })
   @Field({ description: 'Address of the User', nullable: true })
   @IsOptional()
-  @IsString()
-  Address?: string;
+  @IsNumber()
+  Age?: number;
 
   @Column({ nullable: true })
   @Field({ description: 'Created Date', nullable: true })
@@ -39,6 +40,10 @@ export class User {
   @Column({ nullable: true })
   @Field({ description: 'Created Date', nullable: true })
   UpdatedAt: Date;
+
+  @OneToMany(() => Book, (book) => book.Author)
+  @Field(() => [Book])
+  Books: Book[];
 
   @OneToMany((type) => RefreshToken, (refreshToken) => refreshToken.user)
   refreshTokens: RefreshToken[];
