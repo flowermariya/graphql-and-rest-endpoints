@@ -15,13 +15,26 @@ import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
 import { JwtAuthGuard } from 'src/auth/guards/auth.jwt.rest.guard';
 import { CurrentUser, IUser } from 'src/auth/guards/current-user.guard';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Resource - Book')
+@ApiBearerAuth('JWT-auth')
 @UseGuards(JwtAuthGuard)
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post('createBook')
+  @ApiOperation({ summary: 'Creates a new book entry in the database' })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been successfully created.',
+  })
   async createBook(
     @CurrentUser() user: IUser,
     @Body() createBookInput: CreateBookInput,
@@ -30,11 +43,23 @@ export class BookController {
     return this.bookService.create(user, createBookInput);
   }
 
+  @ApiOperation({ summary: 'Retrieves all the books from the database' })
+  @ApiResponse({
+    status: 201,
+    description: 'All books Retrieved successfully.',
+  })
   @Get('findAllBooks')
   async findAllBooks(): Promise<Book[]> {
     return this.bookService.findAllBooks();
   }
 
+  @ApiOperation({
+    summary: 'Retrieves information for the book identified by the provided ID',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been successfully retrieved.',
+  })
   @Get('findOneBook/:BookId')
   async findOneBook(@Param('BookId') BookId: string): Promise<Book> {
     const book = await this.bookService.findOneBook(BookId);
@@ -44,6 +69,14 @@ export class BookController {
     return book;
   }
 
+  @ApiOperation({
+    summary:
+      'Updates the information for the book identified by the provided ID.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been successfully updated.',
+  })
   @Patch('updateBook/:BookId')
   async updateBook(
     @CurrentUser() user: IUser,
@@ -53,6 +86,13 @@ export class BookController {
     return await this.bookService.updateBook(user, BookId, updateBookInput);
   }
 
+  @ApiOperation({
+    summary: 'Deletes the book identified by the provided ID from the database',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been deleted successfully.',
+  })
   @Delete('removeBook/:BookId')
   async removeBook(
     @CurrentUser() user: IUser,

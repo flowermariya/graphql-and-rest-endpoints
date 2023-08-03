@@ -21,9 +21,4 @@ export class UserResolver {
   ): Promise<User> {
     return this.userService.updateUser(UserId, updateUserInput);
   }
-
-  @Mutation(() => User)
-  removeUser(@Args('userId') UserId: string): Promise<User> {
-    return this.userService.removeUser(UserId);
-  }
 }
