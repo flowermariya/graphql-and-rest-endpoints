@@ -4,12 +4,14 @@ import { UpdateBookInput } from './dto/update-book.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
+    private readonly userService: UserService,
   ) {}
 
   async create(createBookInput: CreateBookInput): Promise<Book> {
@@ -20,7 +22,18 @@ export class BookService {
         CreatedAt: new Date(),
       });
 
-      console.log(createdBook);
+      const author = await this.userService.findOneUserById(
+        createBookInput?.AuthorId,
+      );
+
+      if (!author) {
+        throw new HttpException(
+          `Author with ${createBookInput?.AuthorId} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      createdBook.Author = author;
 
       return await this.bookRepository.save(createdBook);
     } catch (error) {
@@ -62,6 +75,21 @@ export class BookService {
         existingBook,
         updateBookInput,
       );
+
+      if (updateBookInput?.AuthorId) {
+        const author = await this.userService.findOneUserById(
+          updateBookInput?.AuthorId,
+        );
+
+        if (!author) {
+          throw new HttpException(
+            `Author with ${updateBookInput?.AuthorId} not found`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+
+        updatedBook.Author = author;
+      }
 
       updatedBook.UpdatedAt = new Date();
 

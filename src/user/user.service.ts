@@ -25,6 +25,14 @@ export class UserService {
     }
   }
 
+  async findOneUserById(authorId): Promise<User> {
+    try {
+      return await this.userRepository.findOne({ where: { UserId: authorId } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async findAllUsers(): Promise<User[]> {
     try {
       return await this.userRepository.find();

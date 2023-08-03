@@ -22,7 +22,6 @@ export class BookController {
 
   @Post('createBook')
   async createBook(@Body() createBookInput: CreateBookInput): Promise<Book> {
-    console.log('>>createbooks');
     return this.bookService.create(createBookInput);
   }
 

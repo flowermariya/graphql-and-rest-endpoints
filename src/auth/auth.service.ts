@@ -62,11 +62,15 @@ export class AuthService {
         expiresIn: this.authConfig.tokenLife,
       });
 
+      console.log('token', token);
+
       const refreshToken = await this.createRefreshToken({
         user,
         ip: '127.0.0.1',
         userAgent: 'Microsoft',
       });
+
+      console.log('refreshToken', refreshToken);
 
       return {
         accessToken: token,
@@ -99,6 +103,8 @@ export class AuthService {
 
       return this.refreshTokenRepo.save(refreshToken);
     } catch (error) {
+      console.log('error from tokeeeennn', error);
+
       throw error;
     }
   }

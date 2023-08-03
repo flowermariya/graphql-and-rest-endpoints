@@ -1,6 +1,13 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -15,15 +22,14 @@ export class Book {
   @IsString()
   Title: string;
 
-  @Column()
-  @Field({ description: 'Name of the author of the book' })
+  @ManyToOne(() => User, (user) => user.Books)
+  @Field(() => User, { description: 'Name of the author of the book' })
   @IsNotEmpty()
-  @IsString()
-  AuthorName: string;
+  Author: User;
 
   @Column()
-  @Field(() => Int, { description: 'Price of the book' })
-  @IsNotEmpty()
+  @Field(() => Int, { description: 'Price of the book', nullable: true })
+  @IsOptional()
   @IsNumber()
   Price: number;
 
