@@ -78,9 +78,6 @@ input CreateBookInput {
   """Title of the book """
   Title: String!
 
-  """Name of the author of the book"""
-  AuthorId: String!
-
   """Price of the book"""
   Price: Int!
 
@@ -91,9 +88,6 @@ input CreateBookInput {
 input UpdateBookInput {
   """Title of the book """
   Title: String
-
-  """Name of the author of the book"""
-  AuthorId: String!
 
   """Price of the book"""
   Price: Int

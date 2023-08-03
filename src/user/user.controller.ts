@@ -10,7 +10,7 @@ import {
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
-import { JwtAuthGuard } from 'src/auth/auth.jwt.rest.guard';
+import { JwtAuthGuard } from 'src/auth/guards/auth.jwt.rest.guard';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
