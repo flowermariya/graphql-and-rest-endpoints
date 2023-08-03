@@ -6,6 +6,7 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { IUser } from 'src/auth/guards/current-user.guard';
+import { SortColumn, SortOrder } from 'src/enums/sort.enum';
 
 @Injectable()
 export class BookService {
@@ -34,9 +35,18 @@ export class BookService {
     }
   }
 
-  findAllBooks(): Promise<Book[]> {
+  findAllBooks(paginationAndSorting): Promise<Book[]> {
     try {
-      return this.bookRepository.find();
+      const {
+        limit = 5,
+        sort_field = SortColumn.CREATED_AT,
+        sort_order = SortOrder.DESC,
+      } = paginationAndSorting;
+
+      return this.bookRepository.find({
+        order: { [sort_field]: sort_order },
+        take: limit,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

@@ -66,9 +66,28 @@ type CreateAuthOutput {
 }
 
 type Query {
-  findAllBooks: [Book!]!
+  findAllBooks(paginationAndSorting: PaginationAndSorting): [Book!]!
   findOneBook(BookId: String!): Book!
   findAllUsers: [User!]!
+}
+
+input PaginationAndSorting {
+  limit: Int = 5
+  sort_field: SortColumn = CREATED_AT
+  sort_order: SortOrder = DESC
+}
+
+"""Columns by which results can be ordered."""
+enum SortColumn {
+  PRICE
+  CREATED_AT
+  PUBLISHED_ON
+}
+
+"""Columns by which results can be ordered."""
+enum SortOrder {
+  ASC
+  DESC
 }
 
 type Mutation {
