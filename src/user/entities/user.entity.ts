@@ -1,7 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { RefreshToken } from 'src/auth/entities/refresh-token.entinty';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsPhoneNumber } from 'class-validator';
 import { Book } from 'src/book/entities/book.entity';
 
 @Entity()
@@ -12,6 +12,7 @@ export class User {
   UserId: string;
 
   @Column()
+  @IsPhoneNumber()
   @Field({ description: 'Phone Number of the User' })
   PhoneNumber: string;
 

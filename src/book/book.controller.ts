@@ -15,7 +15,9 @@ import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
 import { JwtAuthGuard } from 'src/auth/guards/auth.jwt.rest.guard';
 import { CurrentUser, IUser } from 'src/auth/guards/current-user.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Resource - Book')
 @UseGuards(JwtAuthGuard)
 @Controller('book')
 export class BookController {

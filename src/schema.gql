@@ -58,6 +58,11 @@ type ConfirmOutput {
   refreshToken: String!
 }
 
+type CreateAuthOutput {
+  status: Boolean!
+  message: String!
+}
+
 type Query {
   findAllBooks: [Book!]!
   findOneBook(BookId: String!): Book!
@@ -68,7 +73,7 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(BookId: String!, updateBookInput: UpdateBookInput!): Book!
   removeBook(BookId: String!): Book!
-  loginByOtp(loginBySendOTP: LoginBySendOTP!): Boolean!
+  loginByOtp(loginBySendOTP: LoginBySendOTP!): CreateAuthOutput!
   confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
   updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(userId: String!): User!
@@ -102,6 +107,7 @@ input LoginBySendOTP {
 }
 
 input ConfirmInput {
+  """Phone number of the user needs to logged in"""
   PhoneNumber: String!
   Otp: String!
 }

@@ -43,7 +43,6 @@ export class UserService {
 
   findUserByPhoneNumber(phone_number: string) {
     try {
-      console.log('>>> findUserByPhoneNumber', phone_number);
       return this.userRepository.findOne({
         where: { PhoneNumber: phone_number },
       });
