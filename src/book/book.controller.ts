@@ -6,8 +6,9 @@ import {
   Delete,
   Body,
   Param,
-  NotFoundException,
+  Query,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './entities/book.entity';
@@ -21,6 +22,7 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import { PaginationAndSorting } from './dto/pagination-input';
 
 @ApiTags('Resource - Book')
 @ApiBearerAuth('JWT-auth')
@@ -49,8 +51,10 @@ export class BookController {
     description: 'All books Retrieved successfully.',
   })
   @Get('findAllBooks')
-  async findAllBooks(): Promise<Book[]> {
-    return this.bookService.findAllBooks();
+  async findAllBooks(
+    @Query() paginationAndSorting: PaginationAndSorting,
+  ): Promise<Book[]> {
+    return this.bookService.findAllBooks(paginationAndSorting);
   }
 
   @ApiOperation({
