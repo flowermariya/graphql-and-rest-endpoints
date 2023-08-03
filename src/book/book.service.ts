@@ -13,6 +13,7 @@ export class BookService {
   ) {}
 
   async create(createBookInput: CreateBookInput): Promise<Book> {
+    console.log(createBookInput);
     try {
       const createdBook = await this.bookRepository.create({
         ...createBookInput,
@@ -81,11 +82,11 @@ export class BookService {
         );
       }
 
-      const matchDeleted = Object.assign({}, existingBook);
+      const deletedBook = Object.assign({}, existingBook);
 
       await this.bookRepository.delete(BookId);
 
-      return matchDeleted;
+      return deletedBook;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
