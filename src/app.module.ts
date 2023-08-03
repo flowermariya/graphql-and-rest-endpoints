@@ -15,6 +15,14 @@ import { TypeOrmConfigModule } from './typeorm.config';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      formatError: (error) => {
+        return {
+          message: error.message,
+          code: error.extensions?.code,
+          details: error.extensions?.exception,
+          path: error.path,
+        };
+      },
     }),
     BookModule,
     UserModule,

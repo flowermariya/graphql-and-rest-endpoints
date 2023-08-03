@@ -11,6 +11,7 @@ import { RefreshToken } from './entities/refresh-token.entinty';
 import { addSeconds } from 'date-fns';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateAuthOutput } from './dto/create-auth.output';
 
 @Injectable()
 export class AuthService {
@@ -21,13 +22,14 @@ export class AuthService {
     private refreshTokenRepo: Repository<RefreshToken>,
   ) {}
 
-  async loginByOtp(input: LoginBySendOTP): Promise<Boolean> {
+  async loginByOtp(input: LoginBySendOTP): Promise<CreateAuthOutput> {
     try {
       const url = `${process.env.OTP_URL}${process.env.SMS_OTP_APIKEY}/SMS/${input?.PhoneNumber}/AUTOGEN/Otp`;
-
       await axios.get(url);
-
-      return true;
+      return {
+        status: true,
+        message: 'OTP sent successfully',
+      };
     } catch (error) {
       throw error;
     }

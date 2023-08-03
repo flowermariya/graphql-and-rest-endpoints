@@ -23,7 +23,6 @@ type User {
 
   """Created Date"""
   UpdatedAt: DateTime
-  Books: [Book!]!
 }
 
 """
@@ -37,8 +36,11 @@ type Book {
   """Title of the book """
   Title: String!
 
+  """Title of the book """
+  AuthorName: String!
+
   """Name of the author of the book"""
-  Author: User!
+  Owner: User
 
   """Price of the book"""
   Price: Int
@@ -58,6 +60,11 @@ type ConfirmOutput {
   refreshToken: String!
 }
 
+type CreateAuthOutput {
+  status: Boolean!
+  message: String!
+}
+
 type Query {
   findAllBooks: [Book!]!
   findOneBook(BookId: String!): Book!
@@ -68,18 +75,20 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(BookId: String!, updateBookInput: UpdateBookInput!): Book!
   removeBook(BookId: String!): Book!
-  loginByOtp(loginBySendOTP: LoginBySendOTP!): Boolean!
+  loginByOtp(loginBySendOTP: LoginBySendOTP!): CreateAuthOutput!
   confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
   updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(userId: String!): User!
 }
 
 input CreateBookInput {
   """Title of the book """
   Title: String!
 
+  """Author of the book """
+  AuthorName: String
+
   """Price of the book"""
-  Price: Int!
+  Price: Int
 
   """Date of the book published"""
   PublishedOn: DateTime
@@ -88,6 +97,9 @@ input CreateBookInput {
 input UpdateBookInput {
   """Title of the book """
   Title: String
+
+  """Author of the book """
+  AuthorName: String
 
   """Price of the book"""
   Price: Int
@@ -102,6 +114,7 @@ input LoginBySendOTP {
 }
 
 input ConfirmInput {
+  """Phone number of the user needs to logged in"""
   PhoneNumber: String!
   Otp: String!
 }
