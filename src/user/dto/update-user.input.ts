@@ -1,7 +1,8 @@
 import { CreateUserInput } from './create-user.input';
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
+import { UserGender } from 'src/enums/user.enum';
 
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
@@ -14,10 +15,14 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @ApiPropertyOptional({
     description: 'Phone number of the user',
     example: 'Female',
+    enum: UserGender,
   })
-  @Field({ description: 'Gender of the User', nullable: true })
+  @Field(() => UserGender, {
+    description: 'Gender of the User',
+    nullable: true,
+  })
   @IsOptional()
-  @IsString()
+  @IsEnum(UserGender)
   Gender: string;
 
   @ApiPropertyOptional({
