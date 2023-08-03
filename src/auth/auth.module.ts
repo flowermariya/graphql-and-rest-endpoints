@@ -7,10 +7,10 @@ import { UserModule } from 'src/user/user.module';
 import { AuthConfig } from './auth-gql.config';
 import { RefreshToken } from './entities/refresh-token.entinty';
 import { PassportModule } from '@nestjs/passport';
-import restAuthConfig from './auth-rest.config';
 import { JwtModule } from '@nestjs/jwt'; // <-- Import JwtModule
 import { JwtStrategy } from './auth.jwt';
 import { AuthController } from './auth.controller';
+import restAuthConfig from './auth-rest.config';
 
 @Module({
   providers: [AuthResolver, AuthService, AuthConfig, JwtStrategy],
@@ -20,7 +20,7 @@ import { AuthController } from './auth.controller';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(restAuthConfig),
   ],
-  exports: [JwtStrategy, PassportModule, AuthService, JwtModule, AuthConfig],
+  exports: [JwtStrategy, PassportModule, AuthService, JwtModule],
   controllers: [AuthController],
 })
 export class AuthModule {}
