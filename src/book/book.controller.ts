@@ -53,8 +53,6 @@ export class BookController {
   async findAllBooks(
     @Query() paginationAndSorting: PaginationAndSorting,
   ): Promise<Book[]> {
-    console.log('paginationAndSorting', paginationAndSorting);
-
     return this.bookService.findAllBooks(paginationAndSorting);
   }
 
