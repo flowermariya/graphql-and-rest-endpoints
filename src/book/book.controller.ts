@@ -75,6 +75,21 @@ export class BookController {
   }
 
   @ApiOperation({
+    summary: 'Publishes the book identified by the provided ID.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been successfully published.',
+  })
+  @Patch('publishBook')
+  async publishBook(
+    @CurrentUser() user: IUser,
+    @Query('BookId') BookId: string,
+  ): Promise<Book> {
+    return await this.bookService.publishBook(user, BookId);
+  }
+
+  @ApiOperation({
     summary:
       'Updates the information for the book identified by the provided ID.',
   })
