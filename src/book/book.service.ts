@@ -8,6 +8,7 @@ import { UserService } from 'src/user/user.service';
 import { IUser } from 'src/auth/guards/current-user.guard';
 import { SortColumn, SortOrder } from 'src/enums/sort.enum';
 import { EventEmitter } from 'events';
+import { PaginationAndSorting } from './dto/pagination-input';
 
 @Injectable()
 export class BookService extends EventEmitter {
@@ -21,6 +22,10 @@ export class BookService extends EventEmitter {
 
   async create(user: IUser, createBookInput: CreateBookInput): Promise<Book> {
     try {
+      if (Object.keys(createBookInput).length === 0) {
+        throw new Error('No data found to update');
+      }
+
       const createdBook = await this.bookRepository.create({
         ...createBookInput,
         CreatedAt: new Date(),
@@ -40,20 +45,23 @@ export class BookService extends EventEmitter {
     }
   }
 
-  async findAllBooks(paginationAndSorting): Promise<Book[]> {
+  async findAllBooks(
+    paginationAndSorting: PaginationAndSorting,
+  ): Promise<Book[]> {
     try {
       const {
         limit = 5,
         sort_field = SortColumn.CREATED_AT,
         sort_order = SortOrder.DESC,
+        isPublished = false,
       } = paginationAndSorting;
 
       const allBooks = await this.bookRepository.find({
+        where: { IsPublished: isPublished },
         order: { [sort_field]: sort_order },
         take: limit,
+        relations: ['Owner'],
       });
-
-      this.emit('FindAllBooks', allBooks);
 
       return allBooks;
     } catch (error) {
@@ -72,12 +80,46 @@ export class BookService extends EventEmitter {
     }
   }
 
+  async publishBook(user: IUser, BookId: string): Promise<Book> {
+    try {
+      const existingBook = await this.findOneBook(BookId);
+
+      if (existingBook?.Owner?.UserId !== user?.userId) {
+        throw new HttpException(
+          `You are not authorized to update this book, since you are not the author of this book`,
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      if (!existingBook) {
+        throw new HttpException(
+          `Book with ${BookId} not found to delete`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      existingBook.IsPublished = true;
+      existingBook.PublishedOn = new Date();
+      existingBook.UpdatedAt = new Date();
+
+      const publishedBook = await this.bookRepository.save(existingBook);
+
+      return publishedBook;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async updateBook(
     user: IUser,
     BookId: string,
     updateBookInput: UpdateBookInput,
   ): Promise<Book> {
     try {
+      if (Object.keys(updateBookInput).length === 0) {
+        throw new Error('No data found to update');
+      }
+
       const existingBook = await this.findOneBook(BookId);
 
       if (existingBook?.Owner?.UserId !== user?.userId) {
@@ -111,7 +153,7 @@ export class BookService extends EventEmitter {
     }
   }
 
-  async removeBook(user: IUser, BookId: string): Promise<Book> {
+  async removeBook(user: IUser, BookId: string) {
     try {
       const existingBook = await this.findOneBook(BookId);
 
@@ -129,13 +171,11 @@ export class BookService extends EventEmitter {
         );
       }
 
-      const deletedBook = Object.assign({}, existingBook);
-
       const deletedBookIs = this.bookRepository.delete(BookId);
 
       this.emit('DeleteBook', deletedBookIs);
 
-      return deletedBook;
+      return 'Book deleted successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

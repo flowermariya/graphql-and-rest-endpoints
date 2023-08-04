@@ -16,15 +16,21 @@ export class UpdateBookInput {
   @IsString()
   AuthorName: string;
 
+  @ApiPropertyOptional({
+    description: 'Description of the book',
+    nullable: true,
+  })
+  @Field({
+    description: 'Description of the book ',
+    nullable: true,
+  })
+  @IsOptional()
+  @IsString({ message: 'Description must be a string' })
+  Description: string;
+
   @ApiPropertyOptional({ description: 'Price of the book' })
   @Field(() => Int, { description: 'Price of the book', nullable: true })
   @IsOptional()
   @IsNumber()
   Price: number;
-
-  @ApiPropertyOptional({ description: 'Date of the book published' })
-  @Field({ description: 'Date of the book published', nullable: true })
-  @IsString()
-  @IsOptional()
-  PublishedOn: Date;
 }

@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
 import { SortColumn, SortOrder } from 'src/enums/sort.enum';
 
 @InputType()
@@ -16,6 +16,14 @@ export class PaginationAndSorting {
   @Min(1)
   @Transform(({ value }) => parseInt(value))
   limit?: number;
+
+  @Field(() => Boolean, { nullable: true, defaultValue: false })
+  @ApiPropertyOptional({
+    description:
+      'Is book published? If not provided, the default value is false',
+  })
+  @IsOptional()
+  isPublished?: boolean;
 
   @Field(() => SortColumn, {
     nullable: true,

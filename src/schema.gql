@@ -17,18 +17,12 @@ type User {
 
   """Address of the User"""
   Age: Float
-
-  """Created Date"""
-  CreatedAt: DateTime
-
-  """Created Date"""
-  UpdatedAt: DateTime
+  CreatedAt: DateTimeCustom!
+  UpdatedAt: DateTimeCustom!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+"""A custom scalar for DateTime values"""
+scalar DateTimeCustom
 
 type Book {
   BookId: String!
@@ -39,20 +33,18 @@ type Book {
   """Author name of the book """
   AuthorName: String
 
+  """Description of the book """
+  Description: String
+
   """Name of the owner who added this book"""
   Owner: User
 
   """Price of the book"""
   Price: Int
-
-  """Date of the book published"""
-  PublishedOn: DateTime
-
-  """Created Date"""
-  CreatedAt: DateTime
-
-  """Created Date"""
-  UpdatedAt: DateTime
+  IsPublished: Boolean!
+  PublishedOn: DateTimeCustom
+  CreatedAt: DateTimeCustom!
+  UpdatedAt: DateTimeCustom
 }
 
 type ConfirmOutput {
@@ -73,6 +65,7 @@ type Query {
 
 input PaginationAndSorting {
   limit: Int = 5
+  isPublished: Boolean = false
   sort_field: SortColumn = CREATED_AT
   sort_order: SortOrder = DESC
 }
@@ -82,6 +75,7 @@ enum SortColumn {
   PRICE
   CREATED_AT
   PUBLISHED_ON
+  TITLE
 }
 
 """Sorting order for results."""
@@ -92,11 +86,12 @@ enum SortOrder {
 
 type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
+  publishBook(BookId: String!): Book!
   updateBook(BookId: String!, updateBookInput: UpdateBookInput!): Book!
   removeBook(BookId: String!): Book!
   loginByOtp(loginBySendOTP: LoginBySendOTP!): CreateAuthOutput!
   confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
-  updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
+  updateUser(phoneNumber: String!, updateUserInput: UpdateUserInput!): User!
 }
 
 input CreateBookInput {
@@ -106,11 +101,11 @@ input CreateBookInput {
   """Author of the book """
   AuthorName: String
 
+  """Description of the book """
+  Description: String
+
   """Price of the book"""
   Price: Int
-
-  """Date of the book published"""
-  PublishedOn: DateTime
 }
 
 input UpdateBookInput {
@@ -120,11 +115,11 @@ input UpdateBookInput {
   """Author of the book """
   AuthorName: String
 
+  """Description of the book """
+  Description: String
+
   """Price of the book"""
   Price: Int
-
-  """Date of the book published"""
-  PublishedOn: DateTime
 }
 
 input LoginBySendOTP {
@@ -139,16 +134,13 @@ input ConfirmInput {
 }
 
 input UpdateUserInput {
-  """Phone Number of the User"""
-  PhoneNumber: String
-
   """Name of the User"""
   Name: String
 
   """Gender of the User"""
   Gender: UserGender
 
-  """Address of the User"""
+  """Age of the User"""
   Age: Float
 }
 

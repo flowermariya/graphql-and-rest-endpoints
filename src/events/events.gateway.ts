@@ -27,10 +27,6 @@ export class EventsGateway implements OnModuleInit {
       this.server.emit('CreateBook', book);
     });
 
-    this.bookService.on('FindAllBooks', (books) => {
-      this.server.emit('FindAllBooks', books);
-    });
-
     this.bookService.on('UpdateBook', (update) => {
       this.server.emit('UpdateBook', update);
     });

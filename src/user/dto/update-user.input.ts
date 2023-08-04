@@ -5,7 +5,7 @@ import { IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
 import { UserGender } from 'src/enums/user.enum';
 
 @InputType()
-export class UpdateUserInput extends PartialType(CreateUserInput) {
+export class UpdateUserInput {
   @ApiPropertyOptional({ description: 'Name of the user', example: 'John Doe' })
   @Field({ description: 'Name of the User', nullable: true })
   @IsString()
@@ -13,7 +13,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   Name: string;
 
   @ApiPropertyOptional({
-    description: 'Phone number of the user',
+    description: 'Gender of the user',
     example: 'Female',
     enum: UserGender,
   })
@@ -26,10 +26,10 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   Gender: string;
 
   @ApiPropertyOptional({
-    description: 'Phone number of the user',
+    description: 'Age of the User',
     example: '16',
   })
-  @Field({ description: 'Address of the User', nullable: true })
+  @Field({ description: 'Age of the User', nullable: true })
   @IsOptional()
   @IsNumber()
   Age: number;
