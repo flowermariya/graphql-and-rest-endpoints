@@ -53,8 +53,6 @@ export class BookController {
   async findAllBooks(
     @Query() paginationAndSorting: PaginationAndSorting,
   ): Promise<Book[]> {
-    console.log('paginationAndSorting', paginationAndSorting);
-
     return this.bookService.findAllBooks(paginationAndSorting);
   }
 
@@ -72,6 +70,21 @@ export class BookController {
       throw new NotFoundException(`Book with ID ${BookId} not found`);
     }
     return book;
+  }
+
+  @ApiOperation({
+    summary: 'Publishes the book identified by the provided ID.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The book has been successfully published.',
+  })
+  @Patch('publishBook')
+  async publishBook(
+    @CurrentUser() user: IUser,
+    @Query('BookId') BookId: string,
+  ): Promise<Book> {
+    return await this.bookService.publishBook(user, BookId);
   }
 
   @ApiOperation({
