@@ -53,6 +53,8 @@ export class BookController {
   async findAllBooks(
     @Query() paginationAndSorting: PaginationAndSorting,
   ): Promise<Book[]> {
+    console.log('paginationAndSorting', paginationAndSorting);
+
     return this.bookService.findAllBooks(paginationAndSorting);
   }
 
@@ -63,8 +65,8 @@ export class BookController {
     status: 201,
     description: 'The book has been successfully retrieved.',
   })
-  @Get('findOneBook/:BookId')
-  async findOneBook(@Param('BookId') BookId: string): Promise<Book> {
+  @Get('findOneBook')
+  async findOneBook(@Query('BookId') BookId: string): Promise<Book> {
     const book = await this.bookService.findOneBook(BookId);
     if (!book) {
       throw new NotFoundException(`Book with ID ${BookId} not found`);
@@ -80,10 +82,10 @@ export class BookController {
     status: 201,
     description: 'The book has been successfully updated.',
   })
-  @Patch('updateBook/:BookId')
+  @Patch('updateBook')
   async updateBook(
     @CurrentUser() user: IUser,
-    @Param('BookId') BookId: string,
+    @Query('BookId') BookId: string,
     @Body() updateBookInput: UpdateBookInput,
   ): Promise<Book> {
     return await this.bookService.updateBook(user, BookId, updateBookInput);
@@ -96,11 +98,11 @@ export class BookController {
     status: 201,
     description: 'The book has been deleted successfully.',
   })
-  @Delete('removeBook/:BookId')
+  @Delete('removeBook')
   async removeBook(
     @CurrentUser() user: IUser,
-    @Param('BookId') BookId: string,
-  ): Promise<Book> {
+    @Query('BookId') BookId: string,
+  ) {
     return await this.bookService.removeBook(user, BookId);
   }
 }

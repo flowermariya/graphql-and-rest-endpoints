@@ -1,12 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsDateString,
-} from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
+import { DateTimeScalar } from 'src/utils/scalar';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -19,15 +13,15 @@ export class Book {
 
   @Column()
   @Field({ description: 'Title of the book ' })
-  @IsNotEmpty()
-  @IsString()
   Title: string;
 
   @Column({ nullable: true })
   @Field({ description: 'Author name of the book ', nullable: true })
-  @IsOptional()
-  @IsString()
   AuthorName: string;
+
+  @Column({ nullable: true })
+  @Field({ description: 'Description of the book ', nullable: true })
+  Description: string;
 
   @ManyToOne(() => User, (user) => user.Books)
   @Field(() => User, {
@@ -38,22 +32,21 @@ export class Book {
 
   @Column({ nullable: true })
   @Field(() => Int, { description: 'Price of the book', nullable: true })
-  @IsOptional()
-  @IsNumber()
   Price: number;
 
-  @Column({ nullable: true })
-  @Field({ description: 'Date of the book published', nullable: true })
-  @IsString()
-  @IsOptional()
-  @IsDateString({ strict: true })
-  PublishedOn?: Date;
+  @Field(() => Boolean)
+  @Column({ nullable: true, default: false })
+  IsPublished: boolean;
 
-  @Column({ nullable: true })
-  @Field({ description: 'Created Date', nullable: true })
+  @Field(() => DateTimeScalar, { nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
+  PublishedOn: Date;
+
+  @Field(() => DateTimeScalar)
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   CreatedAt: Date;
 
-  @Column({ nullable: true })
-  @Field({ description: 'Created Date', nullable: true })
+  @Field(() => DateTimeScalar, { nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   UpdatedAt: Date;
 }

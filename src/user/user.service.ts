@@ -52,15 +52,19 @@ export class UserService {
   }
 
   async updateUser(
-    UserId: string,
+    PhoneNumber: string,
     updateUserInput: UpdateUserInput,
   ): Promise<User> {
     try {
-      const user = await this.userRepository.findOne({ where: { UserId } });
+      if (Object.keys(updateUserInput).length === 0) {
+        throw new Error('No data found to update');
+      }
+
+      const user = await this.findUserByPhoneNumber(PhoneNumber);
 
       if (!user) {
         throw new HttpException(
-          `User with ${UserId} not found to update`,
+          `User with ${PhoneNumber} not found to update`,
           HttpStatus.NOT_FOUND,
         );
       }
