@@ -23,20 +23,20 @@ export class Book {
   @IsString()
   Title: string;
 
-  @Column()
-  @Field({ description: 'Title of the book ' })
-  @IsNotEmpty()
+  @Column({ nullable: true })
+  @Field({ description: 'Author name of the book ', nullable: true })
+  @IsOptional()
   @IsString()
   AuthorName: string;
 
   @ManyToOne(() => User, (user) => user.Books)
   @Field(() => User, {
-    description: 'Name of the author of the book',
+    description: 'Name of the owner who added this book',
     nullable: true,
   })
   Owner: User;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Int, { description: 'Price of the book', nullable: true })
   @IsOptional()
   @IsNumber()

@@ -36,10 +36,10 @@ type Book {
   """Title of the book """
   Title: String!
 
-  """Title of the book """
-  AuthorName: String!
+  """Author name of the book """
+  AuthorName: String
 
-  """Name of the author of the book"""
+  """Name of the owner who added this book"""
   Owner: User
 
   """Price of the book"""

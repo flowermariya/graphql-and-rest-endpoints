@@ -41,8 +41,7 @@ export class BookController {
     @CurrentUser() user: IUser,
     @Body() createBookInput: CreateBookInput,
   ): Promise<Book> {
-    console.log('>>user', user);
-    return this.bookService.create(user, createBookInput);
+    return await this.bookService.create(user, createBookInput);
   }
 
   @ApiOperation({ summary: 'Retrieves all the books from the database' })
