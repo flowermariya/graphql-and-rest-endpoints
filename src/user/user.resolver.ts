@@ -16,9 +16,9 @@ export class UserResolver {
 
   @Mutation(() => User)
   updateUser(
-    @Args('userId') UserId: string,
+    @Args('phoneNumber') PhoneNumber: string,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    return this.userService.updateUser(UserId, updateUserInput);
+    return this.userService.updateUser(PhoneNumber, updateUserInput);
   }
 }

@@ -4,6 +4,7 @@ export enum SortColumn {
   PRICE = 'Price',
   CREATED_AT = 'CreatedAt',
   PUBLISHED_ON = 'PublishedOn',
+  TITLE = 'Title',
 }
 
 registerEnumType(SortColumn, {

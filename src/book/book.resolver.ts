@@ -35,6 +35,14 @@ export class BookResolver {
   }
 
   @Mutation(() => Book)
+  publishBook(
+    @CurrentUser() user: IUser,
+    @Args('BookId') BookId: string,
+  ): Promise<Book> {
+    return this.bookService.publishBook(user, BookId);
+  }
+
+  @Mutation(() => Book)
   updateBook(
     @CurrentUser() user: IUser,
     @Args('BookId') BookId: string,
@@ -44,10 +52,7 @@ export class BookResolver {
   }
 
   @Mutation(() => Book)
-  removeBook(
-    @CurrentUser() user: IUser,
-    @Args('BookId') BookId: string,
-  ): Promise<Book> {
+  removeBook(@CurrentUser() user: IUser, @Args('BookId') BookId: string) {
     return this.bookService.removeBook(user, BookId);
   }
 }

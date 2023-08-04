@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 
@@ -19,7 +24,7 @@ export class JwtAuthGuard implements CanActivate {
 
       return !!decoded;
     } catch (err) {
-      throw err;
+      throw new UnauthorizedException(err.message);
     }
   }
 }
