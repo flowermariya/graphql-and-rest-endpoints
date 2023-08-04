@@ -7,19 +7,20 @@ import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { IUser } from 'src/auth/guards/current-user.guard';
 import { SortColumn, SortOrder } from 'src/enums/sort.enum';
+import { EventEmitter } from 'events';
 
 @Injectable()
-export class BookService {
+export class BookService extends EventEmitter {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
     private readonly userService: UserService,
-  ) {}
+  ) {
+    super();
+  }
 
   async create(user: IUser, createBookInput: CreateBookInput): Promise<Book> {
     try {
-      console.log('user', user);
-
       const createdBook = await this.bookRepository.create({
         ...createBookInput,
         CreatedAt: new Date(),
@@ -29,13 +30,17 @@ export class BookService {
 
       createdBook.Owner = author;
 
-      return await this.bookRepository.save(createdBook);
+      const savedBook = await this.bookRepository.save(createdBook);
+
+      this.emit('CreateBook', savedBook);
+
+      return savedBook;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
-  findAllBooks(paginationAndSorting): Promise<Book[]> {
+  async findAllBooks(paginationAndSorting): Promise<Book[]> {
     try {
       const {
         limit = 5,
@@ -43,10 +48,14 @@ export class BookService {
         sort_order = SortOrder.DESC,
       } = paginationAndSorting;
 
-      return this.bookRepository.find({
+      const allBooks = await this.bookRepository.find({
         order: { [sort_field]: sort_order },
         take: limit,
       });
+
+      this.emit('FindAllBooks', allBooks);
+
+      return allBooks;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -92,7 +101,11 @@ export class BookService {
 
       updatedBook.UpdatedAt = new Date();
 
-      return await this.bookRepository.save(updatedBook);
+      const updatedBookIs = await this.bookRepository.save(updatedBook);
+
+      this.emit('UpdateBook', updatedBookIs);
+
+      return updatedBookIs;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -118,7 +131,9 @@ export class BookService {
 
       const deletedBook = Object.assign({}, existingBook);
 
-      await this.bookRepository.delete(BookId);
+      const deletedBookIs = this.bookRepository.delete(BookId);
+
+      this.emit('DeleteBook', deletedBookIs);
 
       return deletedBook;
     } catch (error) {
