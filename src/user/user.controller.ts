@@ -17,6 +17,7 @@ import {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // Rest API to retrieve all users
   @Get('findAllUsers')
   @ApiOperation({ summary: 'Retrieves all the users from the database' })
   @ApiResponse({
@@ -27,6 +28,7 @@ export class UserController {
     return this.userService.findAllUsers();
   }
 
+  // Rest API to update user information
   @Put('updateUser')
   @ApiOperation({
     summary:

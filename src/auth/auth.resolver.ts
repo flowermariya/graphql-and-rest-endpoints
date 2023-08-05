@@ -8,6 +8,7 @@ import { CreateAuthOutput } from './dto/create-auth.output';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
+  // Mutation to initiate login process using OTP
   @Mutation(() => CreateAuthOutput)
   async loginByOtp(
     @Args('loginBySendOTP') loginBySendOTP: LoginBySendOTP,
@@ -15,6 +16,7 @@ export class AuthResolver {
     return this.authService.loginByOtp(loginBySendOTP);
   }
 
+  // Mutation to confirm OTP and login the user
   @Mutation(() => ConfirmOutput)
   async confirmOTP(
     @Args('confirmInput') confirmInput: ConfirmInput,

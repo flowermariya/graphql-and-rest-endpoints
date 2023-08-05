@@ -22,6 +22,7 @@ export class AuthService {
     private refreshTokenRepo: Repository<RefreshToken>,
   ) {}
 
+  // Login using OTP
   async loginByOtp(input: LoginBySendOTP): Promise<CreateAuthOutput> {
     try {
       const url = `${process.env.OTP_URL}${process.env.SMS_OTP_APIKEY}/SMS/${input?.PhoneNumber}/AUTOGEN/Otp`;
@@ -35,6 +36,7 @@ export class AuthService {
     }
   }
 
+  // Confirm OTP and login the user
   async confirmOTP(input: ConfirmInput): Promise<ConfirmOutput> {
     try {
       const { PhoneNumber, Otp } = input;

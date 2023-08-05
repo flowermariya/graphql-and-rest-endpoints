@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Matches } from 'class-validator';
+import { IsNotEmpty, IsPhoneNumber, Matches } from 'class-validator';
 
 @InputType()
 export class LoginBySendOTP {
@@ -11,6 +11,9 @@ export class LoginBySendOTP {
     message() {
       return 'Phone number is required';
     },
+  })
+  @IsPhoneNumber('IN', {
+    message: 'Phone number should be valid',
   })
   @Matches(/^[1-9][0-9]{9}$/, {
     message: 'Phone number should be exactly 10 digits and not start with 0',

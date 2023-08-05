@@ -11,6 +11,7 @@ import { CreateAuthOutput } from './dto/create-auth.output';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Post API initiate login process using OTP
   @Post('loginByOtp')
   @ApiOperation({
     summary: 'Initiates a login process using an OTP sent to the user',
@@ -25,6 +26,7 @@ export class AuthController {
     return this.authService.loginByOtp(loginBySendOTP);
   }
 
+  // Post API to confirm OTP and login the user
   @Post('confirmOTP')
   @ApiOperation({
     summary:
