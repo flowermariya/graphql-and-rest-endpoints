@@ -1,8 +1,7 @@
-import { CreateUserInput } from './create-user.input';
-import { InputType, Field, PartialType } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
-import { UserGender } from 'src/enums/user.enum';
+import { UserGender } from 'src/utils/enums/user.enum';
 
 @InputType()
 export class UpdateUserInput {
