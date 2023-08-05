@@ -69,7 +69,7 @@ type Query {
 
 input PaginationAndSorting {
   limit: Int = 5
-  isPublished: Boolean = false
+  isPublished: Boolean = null
   sort_field: SortColumn = CREATED_AT
   sort_order: SortOrder = DESC
 }
