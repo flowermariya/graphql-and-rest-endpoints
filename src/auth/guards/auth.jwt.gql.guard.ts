@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class GqlAuthGuard extends AuthGuard('jwt') {
   // This method is called by the AuthGuard to handle the request
   handleRequest(err: any, user: any, info: Error) {
-    if ((info || err) && !user) throw new UnauthorizedException(info.message);
+    if ((info || err) && !user) throw new UnauthorizedException(info?.message);
     return user;
   }
 
