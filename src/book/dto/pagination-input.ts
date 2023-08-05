@@ -18,7 +18,7 @@ export class PaginationAndSorting {
   @Transform(({ value }) => parseInt(value))
   limit?: number;
 
-  @Field(() => Boolean, { nullable: true, defaultValue: false })
+  @Field(() => Boolean, { nullable: true, defaultValue: null })
   @ApiPropertyOptional({
     nullable: true,
     description:

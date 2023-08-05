@@ -56,7 +56,7 @@ export class BookService extends EventEmitter {
         limit = 5,
         sort_field = SortColumn.CREATED_AT,
         sort_order = SortOrder.DESC,
-        isPublished = false,
+        isPublished = null,
       } = paginationAndSorting;
 
       const allBooks = await this.bookRepository.find({
