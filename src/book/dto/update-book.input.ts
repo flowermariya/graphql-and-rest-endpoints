@@ -13,6 +13,7 @@ export class UpdateBookInput {
   @ApiPropertyOptional({ description: 'Title of the book', nullable: true })
   @Field({ description: 'Title of the book ', nullable: true })
   @IsString({ message: 'Title must be a string' })
+  @IsOptional()
   @MinLength(1, { message: 'Title must be at least 1 characters long' })
   @MaxLength(50, { message: 'Title must be at most 50 characters long' })
   Title: string;
