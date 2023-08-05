@@ -7,16 +7,26 @@ import { BookModule } from './book/book.module';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmConfigModule } from './typeorm.config';
+import { TypeOrmPostgresModule } from './typeorm.config';
 import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
-    TypeOrmConfigModule,
+    TypeOrmPostgresModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      includeStacktraceInErrorResponses: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       formatError: (error) => {
+        if (error.extensions.code === 'BAD_REQUEST') {
+          return {
+            message: error.message,
+            code: error.extensions?.code,
+            details: error.extensions.originalError,
+            path: null,
+          };
+        }
+
         return {
           message: error.message,
           code: error.extensions?.code,

@@ -8,10 +8,12 @@ import { sign } from 'jsonwebtoken';
 import { AuthConfig } from './configs/auth-gql.config';
 import { RefreshTokenPayloadDto } from './dto/token-payload.input';
 import { RefreshToken } from './entities/refresh-token.entinty';
-import { addSeconds } from 'date-fns';
+import { addSeconds, differenceInSeconds } from 'date-fns';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAuthOutput } from './dto/create-auth.output';
+import { RefreshTokenInput } from './dto/refresh-token.input';
+import { TokenOutput } from './dto/refresh-token.output';
 
 @Injectable()
 export class AuthService {
@@ -79,6 +81,49 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async findRefreshToken(refreshToken: string): Promise<RefreshToken> {
+    return this.refreshTokenRepo.findOne({ where: { refreshToken } });
+  }
+
+  isRefreshTokenExpired(token: RefreshToken): boolean {
+    const now = new Date();
+    return differenceInSeconds(token.expiresAt, now) < 0;
+  }
+
+  async refreshToken(
+    refreshTokenInput: RefreshTokenInput,
+  ): Promise<TokenOutput> {
+    const { refreshToken } = refreshTokenInput;
+
+    const storedRefreshToken = await this.findRefreshToken(refreshToken);
+
+    if (!storedRefreshToken) {
+      throw new UnauthorizedException('Refresh token not found');
+    }
+
+    if (this.isRefreshTokenExpired(storedRefreshToken)) {
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
+    const user = await this.usersService.findOneUserById(
+      storedRefreshToken?.user?.UserId,
+    );
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const payload = { ...user };
+
+    const newAccessToken = sign(payload, this.authConfig.jwtTokenSecret, {
+      expiresIn: this.authConfig.tokenLife,
+    });
+
+    return {
+      accessToken: newAccessToken,
+    };
   }
 
   async createRefreshToken(

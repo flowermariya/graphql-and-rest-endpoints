@@ -6,7 +6,7 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { IUser } from 'src/auth/guards/current-user.guard';
-import { SortColumn, SortOrder } from 'src/enums/sort.enum';
+import { SortColumn, SortOrder } from 'src/utils/enums/sort.enum';
 import { EventEmitter } from 'events';
 import { PaginationAndSorting } from './dto/pagination-input';
 

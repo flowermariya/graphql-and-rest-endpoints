@@ -21,4 +21,4 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   controllers: [],
   providers: [],
 })
-export class TypeOrmConfigModule {}
+export class TypeOrmPostgresModule {}
