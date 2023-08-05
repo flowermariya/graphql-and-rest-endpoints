@@ -32,7 +32,7 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   // Post API to create a new book
-  @Post('createBoo k')
+  @Post('createBook')
   @ApiOperation({ summary: 'Creates a new book entry in the database' })
   @ApiResponse({
     status: 201,
