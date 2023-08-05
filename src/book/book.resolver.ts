@@ -13,6 +13,7 @@ import { PaginationAndSorting } from './dto/pagination-input';
 export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
+  // Mutation to create a new book
   @Mutation(() => Book)
   createBook(
     @CurrentUser() user: IUser,
@@ -21,6 +22,7 @@ export class BookResolver {
     return this.bookService.create(user, createBookInput);
   }
 
+  // Query to retrieve all books
   @Query(() => [Book])
   findAllBooks(
     @Args('paginationAndSorting', { nullable: true })
@@ -29,11 +31,13 @@ export class BookResolver {
     return this.bookService.findAllBooks(paginationAndSorting);
   }
 
+  // Query to retrieve a book by its ID
   @Query(() => Book)
   findOneBook(@Args('BookId') BookId: string): Promise<Book> {
     return this.bookService.findOneBook(BookId);
   }
 
+  // Mutation to publish a book
   @Mutation(() => Book)
   publishBook(
     @CurrentUser() user: IUser,
@@ -42,6 +46,7 @@ export class BookResolver {
     return this.bookService.publishBook(user, BookId);
   }
 
+  // Mutation to update a book
   @Mutation(() => Book)
   updateBook(
     @CurrentUser() user: IUser,
@@ -51,6 +56,7 @@ export class BookResolver {
     return this.bookService.updateBook(user, BookId, updateBookInput);
   }
 
+  // Mutation to remove a book
   @Mutation(() => Book)
   removeBook(@CurrentUser() user: IUser, @Args('BookId') BookId: string) {
     return this.bookService.removeBook(user, BookId);

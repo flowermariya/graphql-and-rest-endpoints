@@ -20,6 +20,7 @@ export class BookService extends EventEmitter {
     super();
   }
 
+  // To create a new book
   async create(user: IUser, createBookInput: CreateBookInput): Promise<Book> {
     try {
       if (Object.keys(createBookInput).length === 0) {
@@ -37,6 +38,7 @@ export class BookService extends EventEmitter {
 
       const savedBook = await this.bookRepository.save(createdBook);
 
+      // Emits an event when create a new book
       this.emit('CreateBook', savedBook);
 
       return savedBook;
@@ -45,6 +47,7 @@ export class BookService extends EventEmitter {
     }
   }
 
+  // To retrieve all books
   async findAllBooks(
     paginationAndSorting: PaginationAndSorting,
   ): Promise<Book[]> {
@@ -69,6 +72,7 @@ export class BookService extends EventEmitter {
     }
   }
 
+  // To retrieve a book by ID
   async findOneBook(BookId: string): Promise<Book> {
     try {
       return await this.bookRepository.findOne({
@@ -80,6 +84,7 @@ export class BookService extends EventEmitter {
     }
   }
 
+  // To publish a book
   async publishBook(user: IUser, BookId: string): Promise<Book> {
     try {
       const existingBook = await this.findOneBook(BookId);
@@ -110,6 +115,7 @@ export class BookService extends EventEmitter {
     }
   }
 
+  // To update a book
   async updateBook(
     user: IUser,
     BookId: string,
@@ -145,6 +151,7 @@ export class BookService extends EventEmitter {
 
       const updatedBookIs = await this.bookRepository.save(updatedBook);
 
+      // Emits an event when update a book
       this.emit('UpdateBook', updatedBookIs);
 
       return updatedBookIs;
@@ -153,6 +160,7 @@ export class BookService extends EventEmitter {
     }
   }
 
+  // To delete a book
   async removeBook(user: IUser, BookId: string) {
     try {
       const existingBook = await this.findOneBook(BookId);
@@ -173,6 +181,7 @@ export class BookService extends EventEmitter {
 
       const deletedBookIs = this.bookRepository.delete(BookId);
 
+      // Emits an event when delete a book
       this.emit('DeleteBook', deletedBookIs);
 
       return 'Book deleted successfully';

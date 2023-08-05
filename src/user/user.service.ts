@@ -12,6 +12,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  // To create a new user
   async createUser(createUserInput: CreateUserInput): Promise<User> {
     try {
       const user = this.userRepository.create({
@@ -25,6 +26,7 @@ export class UserService {
     }
   }
 
+  // To retrieve one user by id
   async findOneUserById(authorId): Promise<User> {
     try {
       return await this.userRepository.findOne({ where: { UserId: authorId } });
@@ -33,6 +35,7 @@ export class UserService {
     }
   }
 
+  // To retrieve all users
   async findAllUsers(): Promise<User[]> {
     try {
       return await this.userRepository.find();
@@ -41,6 +44,7 @@ export class UserService {
     }
   }
 
+  // To retrieve one user by phone number
   findUserByPhoneNumber(phone_number: string) {
     try {
       return this.userRepository.findOne({
@@ -51,6 +55,7 @@ export class UserService {
     }
   }
 
+  // To update user information
   async updateUser(
     PhoneNumber: string,
     updateUserInput: UpdateUserInput,

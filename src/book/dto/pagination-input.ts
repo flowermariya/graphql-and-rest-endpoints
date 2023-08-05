@@ -8,6 +8,7 @@ import { SortColumn, SortOrder } from 'src/enums/sort.enum';
 export class PaginationAndSorting {
   @Field(() => Int, { nullable: true, defaultValue: 5 })
   @ApiPropertyOptional({
+    nullable: true,
     description:
       'Defines the maximum number of books that should be returned in a single request. If not provided, the default value is 5.',
   })
@@ -19,9 +20,11 @@ export class PaginationAndSorting {
 
   @Field(() => Boolean, { nullable: true, defaultValue: false })
   @ApiPropertyOptional({
+    nullable: true,
     description:
       'Is book published? If not provided, the default value is false',
   })
+  @IsBoolean()
   @IsOptional()
   isPublished?: boolean;
 
@@ -30,6 +33,7 @@ export class PaginationAndSorting {
     defaultValue: SortColumn.CREATED_AT,
   })
   @ApiPropertyOptional({
+    nullable: true,
     description:
       'The name of the column by which the retrieved books should be sorted. If not provided, the default sorting column is "CreatedAt".',
   })
@@ -40,6 +44,7 @@ export class PaginationAndSorting {
 
   @Field(() => SortOrder, { nullable: true, defaultValue: SortOrder.DESC })
   @ApiPropertyOptional({
+    nullable: true,
     description:
       'The order in which the retrieved books should be sorted. The options are ascending (ASC) and descending (DESC). If not provided, the default sorting order is DESC.',
   })

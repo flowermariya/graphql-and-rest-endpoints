@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class JwtAuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
+  // This method is called by the AuthGuard to handle the request
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
