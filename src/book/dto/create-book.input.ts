@@ -16,7 +16,7 @@ export class CreateBookInput {
   @IsNotEmpty({ message: 'Title is required' })
   @IsString({ message: 'Title must be a string' })
   @MinLength(1, { message: 'Title must be at least 1 characters long' })
-  @MaxLength(30, { message: 'Title must be at most 30 characters long' })
+  @MaxLength(50, { message: 'Title must be at most 50 characters long' })
   Title: string;
 
   @ApiPropertyOptional({ description: 'Author of the book', nullable: true })
@@ -25,7 +25,7 @@ export class CreateBookInput {
     nullable: true,
   })
   @IsOptional()
-  @MaxLength(15, { message: 'AuthorName must be at most 15 characters long' })
+  @MaxLength(30, { message: 'AuthorName must be at most 30 characters long' })
   @IsString({ message: 'AuthorName must be a string' })
   AuthorName: string;
 
@@ -37,8 +37,8 @@ export class CreateBookInput {
     description: 'Description of the book ',
     nullable: true,
   })
-  @MaxLength(150, {
-    message: 'Description must be at most 150 characters long',
+  @MaxLength(250, {
+    message: 'Description must be at most 250 characters long',
   })
   @IsOptional()
   @IsString({ message: 'Description must be a string' })
