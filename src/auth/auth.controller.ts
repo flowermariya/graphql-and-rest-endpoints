@@ -5,6 +5,8 @@ import { ConfirmInput } from './dto/confirm-otp.input';
 import { ConfirmOutput } from './dto/confirm-otp.output';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateAuthOutput } from './dto/create-auth.output';
+import { TokenOutput } from './dto/refresh-token.output';
+import { RefreshTokenInput } from './dto/refresh-token.input';
 
 @ApiTags('Login')
 @Controller('auth')
@@ -40,5 +42,20 @@ export class AuthController {
     @Query() confirmInput: ConfirmInput,
   ): Promise<ConfirmOutput> {
     return this.authService.confirmOTP(confirmInput);
+  }
+
+  // Post API to refresh token
+  @Post('refreshToken')
+  @ApiOperation({
+    summary: 'Refreshes the access token using the refresh token',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Token refreshed successfully.',
+  })
+  async refreshToken(
+    @Query() refreshTokenInput: RefreshTokenInput,
+  ): Promise<TokenOutput> {
+    return this.authService.refreshToken(refreshTokenInput);
   }
 }

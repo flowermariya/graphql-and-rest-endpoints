@@ -3,13 +3,12 @@ import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { config } from './auth/configs/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
-import { ValidationPipS } from './auth/validation';
 require('dotenv').config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipS());
+  app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors();
 
