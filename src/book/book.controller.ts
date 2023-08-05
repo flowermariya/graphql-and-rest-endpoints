@@ -31,7 +31,8 @@ import { PaginationAndSorting } from './dto/pagination-input';
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Post('createBook')
+  // Post API to create a new book
+  @Post('createBoo k')
   @ApiOperation({ summary: 'Creates a new book entry in the database' })
   @ApiResponse({
     status: 201,
@@ -44,6 +45,7 @@ export class BookController {
     return await this.bookService.create(user, createBookInput);
   }
 
+  // Get API to retrieve all books
   @ApiOperation({ summary: 'Retrieves all the books from the database' })
   @ApiResponse({
     status: 201,
@@ -56,6 +58,7 @@ export class BookController {
     return this.bookService.findAllBooks(paginationAndSorting);
   }
 
+  // Get API to retrieve one book by ID
   @ApiOperation({
     summary: 'Retrieves information for the book identified by the provided ID',
   })
@@ -72,6 +75,7 @@ export class BookController {
     return book;
   }
 
+  // Patch API to publish a book
   @ApiOperation({
     summary: 'Publishes the book identified by the provided ID.',
   })
@@ -87,6 +91,7 @@ export class BookController {
     return await this.bookService.publishBook(user, BookId);
   }
 
+  // Patch API to update a book
   @ApiOperation({
     summary:
       'Updates the information for the book identified by the provided ID.',
@@ -104,6 +109,7 @@ export class BookController {
     return await this.bookService.updateBook(user, BookId, updateBookInput);
   }
 
+  // Delete API to delete a book
   @ApiOperation({
     summary: 'Deletes the book identified by the provided ID from the database',
   })

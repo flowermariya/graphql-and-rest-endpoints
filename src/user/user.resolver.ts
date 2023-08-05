@@ -9,11 +9,13 @@ import { UseGuards } from '@nestjs/common';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  // Query to retrieve all users
   @Query(() => [User])
   findAllUsers(): Promise<User[]> {
     return this.userService.findAllUsers();
   }
 
+  // Mutation to update user information
   @Mutation(() => User)
   updateUser(
     @Args('phoneNumber') PhoneNumber: string,
