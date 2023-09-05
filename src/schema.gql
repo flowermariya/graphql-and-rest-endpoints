@@ -71,7 +71,7 @@ input PaginationAndSorting {
   limit: Int = 5
   isPublished: Boolean = null
   sort_field: SortColumn = CREATED_AT
-  sort_order: SortOrder = DESC
+  sort_order: SortOrder = ASC
 }
 
 """Columns by which results can be ordered."""
