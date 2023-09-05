@@ -91,7 +91,7 @@ export class BookService extends EventEmitter {
 
       if (existingBook?.Owner?.UserId !== user?.userId) {
         throw new HttpException(
-          `You are not authorized to update this book, since you are not the author of this book`,
+          `You are not authorized to publish this book, since you are not the author of this book`,
           HttpStatus.UNAUTHORIZED,
         );
       }
@@ -174,7 +174,7 @@ export class BookService extends EventEmitter {
 
       if (existingBook?.Owner?.UserId !== user?.userId) {
         throw new HttpException(
-          `You are not authorized to update this book, since you are not the author of this book`,
+          `You are not authorized to delete this book, since you are not the author of this book`,
           HttpStatus.UNAUTHORIZED,
         );
       }

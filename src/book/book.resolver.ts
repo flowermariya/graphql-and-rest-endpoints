@@ -57,7 +57,7 @@ export class BookResolver {
   }
 
   // Mutation to remove a book
-  @Mutation(() => Book)
+  @Mutation(() => String)
   removeBook(@CurrentUser() user: IUser, @Args('BookId') BookId: string) {
     return this.bookService.removeBook(user, BookId);
   }

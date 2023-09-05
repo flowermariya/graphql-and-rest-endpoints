@@ -92,7 +92,7 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   publishBook(BookId: String!): Book!
   updateBook(BookId: String!, updateBookInput: UpdateBookInput!): Book!
-  removeBook(BookId: String!): Book!
+  removeBook(BookId: String!): String!
   loginByOtp(loginBySendOTP: LoginBySendOTP!): CreateAuthOutput!
   confirmOTP(confirmInput: ConfirmInput!): ConfirmOutput!
   refreshToken(input: RefreshTokenInput!): TokenOutput!
